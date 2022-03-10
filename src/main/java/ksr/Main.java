@@ -1,25 +1,22 @@
 package ksr;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import ksr.deserialization.Article;
+import ksr.deserialization.Deserializer;
+
 import java.io.*;
+import java.util.List;
+
 
 public class Main {
-    public static <File> void main(String[] args) {
+    public static void main(String[] args) {
+        try {
+            Deserializer des = new Deserializer();
+            List<Article> articleList = des.getArticles();
 
-//        File file = new File("simple_bean.xml");
-//        XmlMapper xmlMapper = new XmlMapper();
-//        String xml = inputStreamToString(new FileInputStream(file));
-//        SimpleBean value = xmlMapper.readValue(xml, SimpleBean.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
-
-//    public static String inputStreamToString(InputStream is) throws IOException {
-//        StringBuilder sb = new StringBuilder();
-//        String line;
-//        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-//        while ((line = br.readLine()) != null) {
-//            sb.append(line);
-//        }
-//        br.close();
-//        return sb.toString();
-//    }
 }
