@@ -19,7 +19,7 @@ public class Extractor {
     }
 
     private void extractArticle(Article article) {
-        List<String> words = List.of(article.getText().split(" "));
+        List<String> words = article.getText();
 
         Map<String, Integer> wordsCount = new HashMap<>();
         float avgWordsLength = 0F;
@@ -27,7 +27,6 @@ public class Extractor {
         int range2 = 0;
         int range3 = 0;
         int maxWordLength = 0;
-        int punctuations = 0;
         for (String word : words) {
             if (wordsCount.containsKey(word)) {
                 wordsCount.replace(word, wordsCount.get(word) + 1);
@@ -37,20 +36,21 @@ public class Extractor {
             avgWordsLength += word.length();
 
             if (word.length() <= 3)
-                range1 += 1;
+                range1++;
             else if (word.length() <= 8)
-                range2 += 1;
+                range2++;
             else
-                range3 += 1;
+                range3++;
 
             if (word.length() > maxWordLength)
                 maxWordLength = word.length();
         }
 
-        Pattern p = Pattern.compile("\\p{Punct}");
-        Matcher m = p.matcher(article.getText());
-        while (m.find()) {
-            punctuations += 1;
+        String longestWordInTitle = "";
+        for (String word : article.getTitle().split(" ")) {
+            if (word.length() > longestWordInTitle.length()) {
+                longestWordInTitle = word;
+            }
         }
 
         Properties prop = new Properties();
@@ -61,8 +61,9 @@ public class Extractor {
         prop.wordsRangeNineInf = range3;
         prop.maxWordLength = maxWordLength;
         prop.wordsCount = words.size();
-        prop.punctuationsCount = punctuations;
-        prop.TopWordOccurence = Collections.max(wordsCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
+        prop.titleLength = article.getTitle().length();
+        prop.topWordOccurence = Collections.max(wordsCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
+        prop.longestWordInTitle = longestWordInTitle;
 
         //System.out.println("TITLE: "+article.getTitle()+"\nKEY: "+prop.TopWordOccurence+"\nVAL: "+ wordsCount.get(prop.TopWordOccurence)+"\n");
         article.setProperties(prop);
@@ -73,8 +74,5 @@ public class Extractor {
             extractArticle(article);
         }
     }
-
-    //9. Najczęściej występujące słowo
-    //10.
 
 }

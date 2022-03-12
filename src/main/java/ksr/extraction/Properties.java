@@ -4,7 +4,6 @@ public class Properties {
 
     //1. Liczba unikalnych słów
     public int uniqueWordsCount;
-
     //2. Średnia długość słowa
     public float avgWordLength;
     //3. Liczba słów w przedziale <1, 3>
@@ -18,9 +17,9 @@ public class Properties {
     //7. Ilość wszystkich słów
     public int wordsCount;
     //8. Ilość znaków interpunkcyjnych
-    public int punctuationsCount;
+    public int titleLength;
     //9. Najczęściej występujące słowo
-    public String TopWordOccurence;
-    //10.
-    //??????
+    public String topWordOccurence;
+    //10. Najdłuższe słowo w tytule
+    public String longestWordInTitle;
 }

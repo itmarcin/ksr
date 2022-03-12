@@ -2,8 +2,10 @@ package ksr.deserialization;
 
 import ksr.extraction.Properties;
 
+import java.util.List;
+
 public class Article {
-    String text;
+    List<String> text;
     String title;
     String places;
     Properties properties;
@@ -17,7 +19,7 @@ public class Article {
                 '}';
     }
 
-    public Article(String text, String title, String places) {
+    public Article(List<String> text, String title, String places) {
         this.text = text;
         this.title = title;
         this.places = places;
@@ -27,7 +29,7 @@ public class Article {
         this.properties = properties;
     }
 
-    public String getText() {
+    public List<String> getText() {
         return text;
     }
 
