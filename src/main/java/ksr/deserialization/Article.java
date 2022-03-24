@@ -13,7 +13,7 @@ public class Article {
     @Override
     public String toString() {
         return "Article{" +
-                "text='" + text + '\'' +
+                "text='" + text.toString() + '\'' +
                 ", title='" + title + '\'' +
                 ", places='" + places + '\'' +
                 '}';
