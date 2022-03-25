@@ -33,11 +33,13 @@ public class Deserializer {
 
         for (Document rawDocument : rawDocuments) {
             for (Element element : rawDocument.select("reuters")) {
+                if(!element.select("text").text().isEmpty()){
                 String title = element.select("title").text();
                 String places = element.select("places").text();
                 List<String> text = steemWords(List.of(element.select("text").text().replaceAll("[^a-zA-Z\\s]", "").split(" ")));
                 text.removeAll(Arrays.asList("", null));
                 articles.add(new Article(text, title, places));
+                }
             }
         }
         return articles;

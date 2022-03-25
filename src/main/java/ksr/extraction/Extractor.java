@@ -10,7 +10,7 @@ public class Extractor {
     List<String> keyWords;
 
     public Extractor(KeyWords kw) {
-        keyWords = kw.keyWords;
+        keyWords = kw.getKeyWords();
     }
 
 
@@ -73,7 +73,14 @@ public class Extractor {
         prop.avgWordLength = avgWordsLength / words.size();
         prop.maxWordLength = maxWordLength;
         prop.topWordOccurence = Collections.max(wordsCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
-        prop.topKeyWordOccurence = Collections.max(keyWordsCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
+        if(!keyWordsCount.isEmpty()){
+            prop.topKeyWordOccurence = Collections.max(keyWordsCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
+        }
+        else {
+            prop.topKeyWordOccurence = "BRAK";
+        }
+
+
 
         //System.out.println("TITLE: "+article.getTitle()+"\nKEY: "+prop.TopWordOccurence+"\nVAL: "+ wordsCount.get(prop.TopWordOccurence)+"\n");
         article.setProperties(prop);

@@ -3,60 +3,27 @@ package ksr.extraction;
 import ksr.deserialization.Article;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class KeyWords {
 
-    public List<String> keyWords;
+    private List<String> keyWords = new ArrayList<>();
 
     String path ="src/resources/keywords.txt";
 
-    public void initializeKeyWords() throws IOException {
-        keyWords = loadFromFile(path);
+    public KeyWords() throws IOException {
+        initializeKeyWords();
     }
 
-    public List<String> loadFromFile(String path) throws IOException {
-        List<String> keyWords = new ArrayList<>();
-
-        BufferedReader bufferedReader;
-        try {
-            FileReader fileReader = new FileReader(path);
-            bufferedReader = new BufferedReader(fileReader);
-            String[] list = bufferedReader.readLine().split(" ");
-            keyWords.addAll(Arrays.asList(list));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public List<String> getKeyWords() {
         return keyWords;
     }
 
-    public void saveToFile(){
-        File file = new File(path);
-        FileWriter fileWriter;
-        try{
-            fileWriter = new FileWriter(file);
-            for(String word: keyWords){
-                fileWriter.write(word + " ");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public boolean isKeyWordsEmpty(){
+        return keyWords.isEmpty();
     }
-
-    public Map<String, Integer> getWordOccurrence(List<Article> articles) {
-        Map<String, Integer> wordsOccurrence = new HashMap<>();
-        for (Article article : articles) {
-            for (String word : article.getText()) {
-                if (wordsOccurrence.containsKey(word)) {
-                    wordsOccurrence.replace(word, wordsOccurrence.get(word) + 1);
-                }
-                wordsOccurrence.putIfAbsent(word, 1);
-            }
-        }
-        return wordsOccurrence;
-    }
-
 
     public void generateKeyWords(List<Article> articles) {
 
@@ -101,4 +68,50 @@ public class KeyWords {
 
         saveToFile();
     }
+
+    private void initializeKeyWords() throws IOException {
+        keyWords = loadFromFile(path);
+    }
+
+    private List<String> loadFromFile(String path) throws IOException {
+        List<String> keyWords = new ArrayList<>();
+
+        BufferedReader bufferedReader;
+        try {
+            File file = new File(path);
+            if(file.exists()){
+                FileReader fileReader = new FileReader(path);
+                bufferedReader = new BufferedReader(fileReader);
+                String[] list = bufferedReader.readLine().split(" ");
+                keyWords.addAll(Arrays.asList(list));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return keyWords;
+    }
+
+    private void saveToFile(){
+        try (FileWriter fileWriter = new FileWriter(path) ){
+            for(String word: keyWords){
+                fileWriter.write(word + " ");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Map<String, Integer> getWordOccurrence(List<Article> articles) {
+        Map<String, Integer> wordsOccurrence = new HashMap<>();
+        for (Article article : articles) {
+            for (String word : article.getText()) {
+                if (wordsOccurrence.containsKey(word)) {
+                    wordsOccurrence.replace(word, wordsOccurrence.get(word) + 1);
+                }
+                wordsOccurrence.putIfAbsent(word, 1);
+            }
+        }
+        return wordsOccurrence;
+    }
+
 }
