@@ -10,13 +10,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Deserializer {
-    File[] files;
+    private File[] files;
+    private List<String> stopWords;
+
 
     public Deserializer() throws IOException {
         File directory = new File("src/Resources/");
         this.files = directory.listFiles();
+        this.stopWords = loadStopWords();
     }
 
     private List<Document> getRawDocuments() throws IOException {
@@ -33,19 +37,27 @@ public class Deserializer {
 
         for (Document rawDocument : rawDocuments) {
             for (Element element : rawDocument.select("reuters")) {
-                if(!element.select("text").text().isEmpty()){
-                String title = element.select("title").text();
-                String places = element.select("places").text();
-                List<String> text = steemWords(List.of(element.select("text").text().replaceAll("[^a-zA-Z\\s]", "").split(" ")));
-                text.removeAll(Arrays.asList("", null));
-                articles.add(new Article(text, title, places));
+                if (!element.select("text").text().isEmpty()) {
+                    String title = element.select("title").text();
+                    String places = element.select("places").text();
+                    List<String> text = removeStopWords(
+                            steemWords(
+                                    List.of(
+                                            element.select("text").text()
+                                                    .replaceAll("[^a-zA-Z ]", "")
+                                                    .split(" ")
+                                    )
+                            )
+                    );
+                    text.removeAll(Arrays.asList("", null));
+                    articles.add(new Article(text, title, places));
                 }
             }
         }
         return articles;
     }
 
-    public List<String> steemWords(List<String> textToSteeme) {
+    private List<String> steemWords(List<String> textToSteeme) {
         List<String> stemmedWord = new ArrayList<String>();
         PorterStemmer porterStemmer = new PorterStemmer();
         for (String word : textToSteeme) {
@@ -54,4 +66,26 @@ public class Deserializer {
         return stemmedWord;
     }
 
+    private List<String> removeStopWords(List<String> text) {
+        List<String> ret = new ArrayList<String>();
+        for (String word : text) {
+            if (!stopWords.contains(word)) {
+                ret.add(word);
+            }
+        }
+        return ret;
+    }
+
+    private List<String> loadStopWords() {
+        List<String> stopWords = new ArrayList<>();
+        File file = new File("src/Resources/stop_words_english.txt");
+        try (Scanner sc = new Scanner(file)) {
+            while (sc.hasNextLine())
+                stopWords.add(sc.nextLine());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stopWords;
+    }
 }

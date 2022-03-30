@@ -35,6 +35,15 @@ public class Main {
             Extractor extractor = new Extractor(kw);
             extractor.extract(articleList);
 
+            System.out.println("EXTRACTED:");
+            int tmpIterator = 0;
+            for(Article article: articleList){
+                if(article.getProperties().keyWordsCount>0){
+                    ++tmpIterator;
+                    System.out.println(article.getProperties().toString());
+                }
+            }
+            System.out.println("NUMBER OF ARTICLES WITH KEYWORDS:" + tmpIterator);
             System.out.println("FINISH");
 
         } catch (IOException e) {

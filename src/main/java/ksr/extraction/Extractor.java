@@ -73,13 +73,11 @@ public class Extractor {
         prop.avgWordLength = avgWordsLength / words.size();
         prop.maxWordLength = maxWordLength;
         prop.topWordOccurence = Collections.max(wordsCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
-        if(!keyWordsCount.isEmpty()){
+        if (!keyWordsCount.isEmpty()) {
             prop.topKeyWordOccurence = Collections.max(keyWordsCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
-        }
-        else {
+        } else {
             prop.topKeyWordOccurence = "BRAK";
         }
-
 
 
         //System.out.println("TITLE: "+article.getTitle()+"\nKEY: "+prop.TopWordOccurence+"\nVAL: "+ wordsCount.get(prop.TopWordOccurence)+"\n");

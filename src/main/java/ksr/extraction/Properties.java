@@ -23,4 +23,21 @@ public class Properties {
     public String topWordOccurence;
     //10. Najczęściej występujące słowo kluczowe
     public String topKeyWordOccurence;
+
+
+    @Override
+    public String toString() {
+        return "Properties{" +
+                "wordsRangeOneFive=" + wordsRangeOneFive +
+                ", wordsRangeSixInf=" + wordsRangeSixInf +
+                ", wordsCount=" + wordsCount +
+                ", keyWordsCount=" + keyWordsCount +
+                ", uniqueWordsCount=" + uniqueWordsCount +
+                ", uniqueKeyWordsCount=" + uniqueKeyWordsCount +
+                ", maxWordLength=" + maxWordLength +
+                ", avgWordLength=" + avgWordLength +
+                ", topWordOccurence='" + topWordOccurence + '\'' +
+                ", topKeyWordOccurence='" + topKeyWordOccurence + '\'' +
+                '}';
+    }
 }

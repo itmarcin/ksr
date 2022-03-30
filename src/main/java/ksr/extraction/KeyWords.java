@@ -11,7 +11,7 @@ public class KeyWords {
 
     private List<String> keyWords = new ArrayList<>();
 
-    String path ="src/resources/keywords.txt";
+    String path = "src/resources/keywords.txt";
 
     public KeyWords() throws IOException {
         initializeKeyWords();
@@ -21,7 +21,7 @@ public class KeyWords {
         return keyWords;
     }
 
-    public boolean isKeyWordsEmpty(){
+    public boolean isKeyWordsEmpty() {
         return keyWords.isEmpty();
     }
 
@@ -58,7 +58,7 @@ public class KeyWords {
                 .entrySet()
                 .stream()
                 .sorted((Map.Entry.<String, Float>comparingByValue().reversed()))
-                .limit(15)
+                .limit(70)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
 
@@ -79,7 +79,7 @@ public class KeyWords {
         BufferedReader bufferedReader;
         try {
             File file = new File(path);
-            if(file.exists()){
+            if (file.exists()) {
                 FileReader fileReader = new FileReader(path);
                 bufferedReader = new BufferedReader(fileReader);
                 String[] list = bufferedReader.readLine().split(" ");
@@ -91,14 +91,17 @@ public class KeyWords {
         return keyWords;
     }
 
-    private void saveToFile(){
-        try (FileWriter fileWriter = new FileWriter(path) ){
-            for(String word: keyWords){
+    private void saveToFile() {
+        System.out.println("SAVE KEYWORDS START");
+        try (FileWriter fileWriter = new FileWriter(path)) {
+            for (String word : keyWords) {
+                System.out.print(word + " ");
                 fileWriter.write(word + " ");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("SAVE KEYWORDS END");
     }
 
     private Map<String, Integer> getWordOccurrence(List<Article> articles) {
