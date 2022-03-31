@@ -1,5 +1,8 @@
 package ksr;
 
+import ksr.algorithms.KNN;
+import ksr.algorithms.metrics.EuclidesMetric;
+import ksr.algorithms.metrics.Metric;
 import ksr.deserialization.Article;
 import ksr.deserialization.Deserializer;
 import ksr.extraction.Extractor;
@@ -44,6 +47,21 @@ public class Main {
                 }
             }
             System.out.println("NUMBER OF ARTICLES WITH KEYWORDS:" + tmpIterator);
+
+            List<Article> testedArticles = articleList.subList(0,1000);
+
+            Metric metric = new EuclidesMetric();
+
+            KNN knn = new KNN(10, testedArticles,metric);
+
+            System.out.println("\n\nDISTANCE MAPS:\n\n");
+
+            for (Article article : articleList.subList(1000, articleList.size())){
+                System.out.println("DISTANCE MAP OF ARTICLE {" + article.getTitle() + "}");
+               // System.out.println(knn.calculateDistance(article));
+            }
+
+
             System.out.println("FINISH");
 
         } catch (IOException e) {

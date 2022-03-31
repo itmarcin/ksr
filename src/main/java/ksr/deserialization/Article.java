@@ -7,22 +7,24 @@ import java.util.List;
 public class Article {
     List<String> text;
     String title;
-    String places;
+    String country;
+
     Properties properties;
 
     @Override
     public String toString() {
         return "Article{" +
-                "text='" + text.toString() + '\'' +
+                "text=" + text +
                 ", title='" + title + '\'' +
-                ", places='" + places + '\'' +
+                ", country='" + country + '\'' +
+                ", properties=" + properties +
                 '}';
     }
 
-    public Article(List<String> text, String title, String places) {
+    public Article(List<String> text, String title, String country) {
         this.text = text;
         this.title = title;
-        this.places = places;
+        this.country = country;
     }
 
     public void setProperties(Properties properties) {
@@ -37,11 +39,11 @@ public class Article {
         return title;
     }
 
-    public String getPlaces() {
-        return places;
-    }
-
     public Properties getProperties() {
         return properties;
+    }
+
+    public String getCountry() {
+        return country;
     }
 }

@@ -76,7 +76,7 @@ public class Extractor {
         if (!keyWordsCount.isEmpty()) {
             prop.topKeyWordOccurence = Collections.max(keyWordsCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
         } else {
-            prop.topKeyWordOccurence = "BRAK";
+            prop.topKeyWordOccurence = "";//"BRAK";
         }
 
 

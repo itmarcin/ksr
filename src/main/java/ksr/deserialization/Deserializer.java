@@ -40,17 +40,29 @@ public class Deserializer {
                 if (!element.select("text").text().isEmpty()) {
                     String title = element.select("title").text();
                     String places = element.select("places").text();
-                    List<String> text = removeStopWords(
-                            steemWords(
-                                    List.of(
-                                            element.select("text").text()
-                                                    .replaceAll("[^a-zA-Z ]", "")
-                                                    .split(" ")
-                                    )
-                            )
-                    );
-                    text.removeAll(Arrays.asList("", null));
-                    articles.add(new Article(text, title, places));
+
+                    String country = "";
+
+                    List<String> placesList = new ArrayList<>();
+                    for(Element place : element.select("places").select("d")){
+                        placesList.add(place.text());
+                    }
+                    if(placesList.size() == 1 && places.matches("west-germany|usa|france|uk|canda|japan")){
+                        country = placesList.get(0);
+
+                        List<String> text = removeStopWords(
+                                steemWords(
+                                        List.of(
+                                                element.select("text").text()
+                                                        .replaceAll("[^a-zA-Z ]", "")
+                                                        .split(" ")
+                                        )
+                                )
+                        );
+                        text.removeAll(Arrays.asList("", null));
+
+                        articles.add(new Article(text, title, country));
+                    }
                 }
             }
         }
