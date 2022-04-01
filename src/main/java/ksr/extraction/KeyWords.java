@@ -58,7 +58,7 @@ public class KeyWords {
                 .entrySet()
                 .stream()
                 .sorted((Map.Entry.<String, Float>comparingByValue().reversed()))
-                .limit(70)
+                .limit(120)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
 
