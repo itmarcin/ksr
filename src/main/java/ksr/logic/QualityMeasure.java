@@ -22,7 +22,7 @@ public class QualityMeasure {
         this.countryNames.add("usa");
         this.countryNames.add("france");
         this.countryNames.add("uk");
-        this.countryNames.add("canda");
+        this.countryNames.add("canada");
         this.countryNames.add("japan");
 
         precision = 0;
@@ -62,7 +62,10 @@ public class QualityMeasure {
                     else
                         fp++;
             }
-            precision.add((float) (tp / (tp + fp) ));
+            if(tp+fp != 0)
+                precision.add( (tp / (float)(tp + fp) ));
+            else
+                precision.add(0F);
         }
         return precision;
     }
@@ -91,7 +94,10 @@ public class QualityMeasure {
                     else
                         fn++;
             }
-            recall.add((float) (tp / (tp + fn) ));
+            if(tp+fn != 0)
+                recall.add( (tp / (float) (tp + fn) ));
+            else
+                recall.add(0F);
         }
         return recall;
     }

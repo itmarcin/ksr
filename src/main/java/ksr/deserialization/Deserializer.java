@@ -47,7 +47,7 @@ public class Deserializer {
                     for(Element place : element.select("places").select("d")){
                         placesList.add(place.text());
                     }
-                    if(placesList.size() == 1 && places.matches("west-germany|usa|france|uk|canda|japan")){
+                    if(placesList.size() == 1 && places.matches("west-germany|usa|france|uk|canada|japan")){
                         country = placesList.get(0);
 
                         List<String> text = removeStopWords(
