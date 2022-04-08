@@ -2,6 +2,9 @@ package ksr.userinterface;
 
 import ksr.logic.Logic;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class CMDInterface {
@@ -22,13 +25,46 @@ public class CMDInterface {
         this.logic = logic;
     }
 
+    private void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+
+    private char getUserCharInput(List<Character> validOptions) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print(PROMPT);
+        String input = scan.next();
+        char[] charInput = input.toCharArray();
+        if (charInput.length != 0 && Character.isLetter(charInput[0])){
+            if (validOptions.contains(charInput[0])){
+                scan.nextLine();
+                scan.close();
+                return charInput[0];
+            } else {
+                System.out.println("Niedozolony znak, sprobuj jeszcze raz.");
+                scan.nextLine();
+                scan.close();
+                getUserCharInput(validOptions);
+            }
+        }
+        else {
+            System.out.println("Niedozolony znak, sprobuj jeszcze raz.");
+            scan.nextLine();
+            scan.close();
+            getUserCharInput(validOptions);
+        }
+        scan.close();
+        return 0;
+    }
+
     private int getUserIntInput() {
         Scanner scan = new Scanner(System.in);
         System.out.print(PROMPT);
         if (scan.hasNextInt()) {
             return scan.nextInt();
         } else {
-            System.out.println("Niedozolony znak, spróbuj jeszcze raz.");
+            System.out.println("Niedozolony znak, sprobuj jeszcze raz.");
             scan.close();
             getUserIntInput();
         }
@@ -36,8 +72,9 @@ public class CMDInterface {
         return 0;
     }
 
-    private void initializeClassification(){
-        if(logic.runner(valueK, percentage, metric) == 0){
+    private void initializeClassification() {
+        clearConsole();
+        if (logic.runner(valueK, percentage, metric) == 0) {
             System.out.println("SUKCES!!!");
             startInterface();
         }
@@ -45,6 +82,7 @@ public class CMDInterface {
 
     private void displayPercentageChoiceMenu() {
         while (true) {
+            clearConsole();
             System.out.println("Wybierz % zbioru testowego z zakresu <1,99>");
             System.out.println("1. Wprowadź wartość parametru K");
             System.out.println("2. Cofnij");
@@ -52,8 +90,8 @@ public class CMDInterface {
             switch (userInput) {
                 case 1 -> {
                     percentage = getUserIntInput();
-                    if (percentage < 1 || percentage > 99){
-                        System.out.println("Liczba nie mieści się w prawidłowym zakresie!");
+                    if (percentage < 1 || percentage > 99) {
+                        System.out.println("Liczba nie miesci sie w prawidlowym zakresie!");
                         displayKChoiceMenu();
                     }
                     initializeClassification();
@@ -67,6 +105,7 @@ public class CMDInterface {
 
     private void displayKChoiceMenu() {
         while (true) {
+            clearConsole();
             System.out.println("Algorytm K-NN.");
             System.out.println("1. Wprowadź wartość parametru K");
             System.out.println("2. Cofnij");
@@ -113,9 +152,10 @@ public class CMDInterface {
 
     public void startInterface() {
         while (true) {
-            System.out.println("Witaj, co chcesz zrobić.");
+            clearConsole();
+            System.out.println("Witaj, co chcesz zrobic.");
             System.out.println("1. Klasyfikuj dokumenty");
-            System.out.println("2. Wyjdź");
+            System.out.println("2. Wyjdz");
             int userInput = getUserIntInput();
             switch (userInput) {
                 case 1 -> displayMetricsMenu();
