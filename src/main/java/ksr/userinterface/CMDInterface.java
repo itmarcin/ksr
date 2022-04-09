@@ -2,9 +2,7 @@ package ksr.userinterface;
 
 import ksr.logic.Logic;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class CMDInterface {
@@ -84,7 +82,7 @@ public class CMDInterface {
         while (true) {
             clearConsole();
             System.out.println("Wybierz % zbioru testowego z zakresu <1,99>");
-            System.out.println("1. Wprowadz wartosc parametru K");
+            System.out.println("1. Wprowadz wartosc zakresu zbioru testowego");
             System.out.println("2. Cofnij");
             int userInput = getUserIntInput();
             switch (userInput) {
@@ -92,7 +90,7 @@ public class CMDInterface {
                     percentage = getUserIntInput();
                     if (percentage < 1 || percentage > 99) {
                         System.out.println("Liczba nie miesci sie w prawidlowym zakresie!");
-                        displayKChoiceMenu();
+                        displayPercentageChoiceMenu();
                     }
                     initializeClassification();
                 }

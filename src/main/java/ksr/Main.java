@@ -8,7 +8,11 @@ public class Main {
 
 
     public static void main(String[] args) {
-        CMDInterface cmdInterface = new CMDInterface(new Logic());
-        cmdInterface.startInterface();
+
+        Logic logic = new Logic();
+        logic.runFinal();
+
+        //CMDInterface cmdInterface = new CMDInterface(new Logic());
+        //cmdInterface.startInterface();
     }
 }
