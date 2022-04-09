@@ -84,7 +84,7 @@ public class CMDInterface {
         while (true) {
             clearConsole();
             System.out.println("Wybierz % zbioru testowego z zakresu <1,99>");
-            System.out.println("1. Wprowadź wartość parametru K");
+            System.out.println("1. Wprowadz wartosc parametru K");
             System.out.println("2. Cofnij");
             int userInput = getUserIntInput();
             switch (userInput) {
@@ -107,7 +107,7 @@ public class CMDInterface {
         while (true) {
             clearConsole();
             System.out.println("Algorytm K-NN.");
-            System.out.println("1. Wprowadź wartość parametru K");
+            System.out.println("1. Wprowadz wartosc parametru K");
             System.out.println("2. Cofnij");
             int userInput = getUserIntInput();
             switch (userInput) {
@@ -124,7 +124,7 @@ public class CMDInterface {
 
     private void displayMetricsMenu() {
         while (true) {
-            System.out.println("Wybierz metrykę:");
+            System.out.println("Wybierz metryke:");
             System.out.println("1. Euklidesowa");
             System.out.println("2. Czebyszewa");
             System.out.println("3. Uliczna");

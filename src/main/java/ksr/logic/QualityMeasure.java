@@ -13,17 +13,10 @@ public class QualityMeasure {
     float precision;
     float recall;
 
-    public QualityMeasure(List<String> predictedCountries, List<String> realCountries){
+    public QualityMeasure(List<String> predictedCountries, List<String> realCountries, List<String> countries){
         this.predictedCountries = predictedCountries;
         this.realCountries = realCountries;
-        this.countryNames = new ArrayList<>();
-
-        this.countryNames.add("west-germany");
-        this.countryNames.add("usa");
-        this.countryNames.add("france");
-        this.countryNames.add("uk");
-        this.countryNames.add("canada");
-        this.countryNames.add("japan");
+        this.countryNames = countries;
 
         precision = 0;
         recall = 0;

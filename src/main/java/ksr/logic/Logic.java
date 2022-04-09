@@ -12,14 +12,20 @@ import ksr.extraction.Extractor;
 import ksr.extraction.KeyWords;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.security.KeyPair;
+import java.text.NumberFormat;
+import java.util.*;
+
+import static java.util.List.*;
 
 public class Logic {
 
 
+    List<String> countries = List.of("west-germany","usa","france","uk","canada","japan");
+
+
     public int runner(int k, int percentage, String metricStr){
+
         float percentageOfTrainingSet = (float) percentage / 100;
 
         Metric metric;
@@ -62,38 +68,59 @@ public class Logic {
                 realCountry.add(article.getCountry());
             }
 
-            //7.Analyzing and exporting results
-            QualityMeasure qualityMeasure = new QualityMeasure(predictedCountry,realCountry);
-            //TODO wykonać wszystkie calculate
-            //TODO zrobić klasę do eksportu do csvki
+            //7. Analyzing results
+            QualityMeasure qualityMeasure = new QualityMeasure(predictedCountry,realCountry, this.countries);
 
             float accuracy = qualityMeasure.calculateAccuracy();
             float generalPrecision = qualityMeasure.calculateGeneralPrecision();
             float generalRecall = qualityMeasure.calculateGeneralRecall();
             float f1 = qualityMeasure.calculateF1();
 
+            Map<String,Float> precisions = new HashMap<>();
+            Map<String,Float> recalls = new HashMap<>();
+            for(String country: countries){
+                precisions.put(country,qualityMeasure.calculatePrecision(of(country)).get(0));
+                recalls.put(country,qualityMeasure.calculateRecall(of(country)).get(0));
+            }
+
+            //8. Show results
             System.out.println("============================");
             System.out.println("============================");
-            System.out.println("=====PARAMETRY WEJŚCIOWE====");
-            System.out.println("K\t\t\t\t- "+k);
-            System.out.println("Podział zbioru\t- "+percentageOfTrainingSet+" / "+(1-percentageOfTrainingSet));
+            System.out.println("=====PARAMETRY WEJSCIOWE====");
+            System.out.println("K\t\t\t\t= "+k);
+            System.out.println("Podzial zbioru\t= "+percentageOfTrainingSet+" / "+(1-percentageOfTrainingSet));
             System.out.println("Metryka\t\t\t- "+metricStr);
             System.out.println("============================");
             System.out.println("============================");
             System.out.println("===========WYNIKI===========");
-            System.out.println("Accuracy\t\t- "+accuracy);
-            System.out.println("Precision\t\t- "+generalPrecision);
-            System.out.println("Recall\t\t\t- "+generalRecall);
-            System.out.println("F1\t\t\t\t- "+f1);
+            System.out.println("Accuracy\t\t= "+toPercentage(accuracy));
+            System.out.println("Precision\t\t= "+toPercentage(generalPrecision));
+            System.out.println("Recall\t\t\t= "+toPercentage(generalRecall));
+            System.out.println("F1\t\t\t\t= "+toPercentage(f1));
+            System.out.println("Precisions:");
+            for(Map.Entry<String, Float> prec : precisions.entrySet()){
+                System.out.println("\t- "+prec.getKey()+" = "+toPercentage(prec.getValue()));
+            }
+            System.out.println("Recalls:");
+            for(Map.Entry<String, Float> prec : recalls.entrySet()){
+                System.out.println("\t- "+prec.getKey()+" = "+toPercentage(prec.getValue()));
+            }
             System.out.println("============================");
             System.out.println("============================");
+
+            //9. Export results
 
             return 0;
-
 
         } catch (IOException e) {
             e.printStackTrace();
             return 1;
         }
     }
+
+    private String toPercentage(float f){
+        NumberFormat format = NumberFormat.getPercentInstance();
+        return format.format(f);
+    }
+
 }
