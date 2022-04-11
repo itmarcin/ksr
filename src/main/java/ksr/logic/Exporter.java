@@ -25,19 +25,16 @@ public class Exporter {
 
             FileWriter writer = new FileWriter(this.fileName, true);
 
-            if(addHeader){
-                writer.write("Metryka;liczba k;podzial zbioru;srednie accuracy;srednie precision;srednie recall;f1;PRECISIONS:;west-germany;usa;france;uk;canada;japan;RECALLS:;west-germany;usa;france;uk;canada;japan\n");
-            }
 
-            StringBuilder precs= new StringBuilder();
-            StringBuilder recs= new StringBuilder();
-            for(Map.Entry<String, Float> prec : dataModel.precs().entrySet()){
-                precs.append(";").append(prec.getValue());
+            if(addHeader){
+                StringBuilder countriesStr = new StringBuilder();
+                for (Map.Entry<String, Float> prec : dataModel.precs().entrySet()) {
+                    countriesStr.append(prec.getKey()+";");
+                }
+                writer.write("Metryka;liczba k;podzial zbioru;srednie accuracy;srednie precision;srednie recall;f1;PRECISIONS:;"+countriesStr+"RECALLS:;"+countriesStr+"\n");
             }
-            for(Map.Entry<String, Float> rec : dataModel.recs().entrySet()){
-                recs.append(";").append(rec.getValue());
-            }
-            writer.write(dataModel.toString()+precs+";"+recs+"\n");
+            String line = dataModel.toString()+"\n";
+            writer.write(line.replace('.',','));
 
             writer.close();
 

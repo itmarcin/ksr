@@ -28,7 +28,7 @@ public class Logic {
     public Logic() {
         fileName = "EXPORT_";
         fileName += new SimpleDateFormat("yyyy-MM-dd_HHmm").format(Calendar.getInstance().getTime());
-        fileName += ".txt";
+        fileName += ".csv";
     }
 
     public int runner(int k, int percentage, String metricStr) {
@@ -95,7 +95,7 @@ public class Logic {
             System.out.println("============================");
             System.out.println("=====PARAMETRY WEJSCIOWE====");
             System.out.println("K\t\t\t\t= " + k);
-            System.out.println("Podzial zbioru\t= " + percentageOfTrainingSet + " / " + (1 - percentageOfTrainingSet));
+            System.out.println("Podzial zbioru\t= " + percentageOfTrainingSet + " / " + (1 - percentageOfTrainingSet) + "(zbior treningowy / zbior testowy)");
             System.out.println("Metryka\t\t\t- " + metricStr);
             System.out.println("============================");
             System.out.println("============================");
@@ -104,17 +104,19 @@ public class Logic {
             System.out.println("Precision\t\t= " + toPercentage(generalPrecision));
             System.out.println("Recall\t\t\t= " + toPercentage(generalRecall));
             System.out.println("F1\t\t\t\t= " + toPercentage(f1));
-            System.out.println("Precisions:");
 
+            System.out.println("Precisions:");
             //for (Map.Entry<String, Float> prec : precisions.entrySet()) {
             //    System.out.println("\t- " + prec.getKey() + " = " + toPercentage(prec.getValue()));
             //}
             precisions.forEach((key, value) -> System.out.println("\t- " + key + " = " + value));
 
             System.out.println("Recalls:");
-            for (Map.Entry<String, Float> prec : recalls.entrySet()) {
-                System.out.println("\t- " + prec.getKey() + " = " + toPercentage(prec.getValue()));
-            }
+            //for (Map.Entry<String, Float> prec : recalls.entrySet()) {
+            //    System.out.println("\t- " + prec.getKey() + " = " + toPercentage(prec.getValue()));
+            //}
+            recalls.forEach((key, value) -> System.out.println("\t- " + key + " = " + value));
+
             System.out.println("============================");
             System.out.println("============================");
 
@@ -136,38 +138,27 @@ public class Logic {
 
         List<String> metrics = List.of("chebyshev", "euclides", "taxicab");
 
-        /*
+
         for(String metric: metrics){
+            //different k'
             runner(2,50,metric);
+            runner(3,50,metric);
+            runner(4,50,metric);
             runner(5,50,metric);
-            runner(10,50,metric);
-            runner(15,50,metric);
+            runner(7,50,metric);
+            runner(9,50,metric);
+            runner(11,50,metric);
+            runner(14,50,metric);
+            runner(16,50,metric);
             runner(20,50,metric);
-            runner(30,50,metric);
-            runner(50,50,metric);
-            runner(75,50,metric);
-            runner(90,50,metric);
-            runner(125,50,metric);
-        }
-        */
-        /*
-        for(String metric: metrics){
-            runner(20,10,metric);
-            runner(20,30,metric);
-            runner(20,50,metric);
-            runner(20,70,metric);
-            runner(20,90,metric);
-        }
-         */
 
-        for (String metric : metrics) {
-            runner(20, 60, metric);
-            runner(20, 60, metric);
-            runner(20, 60, metric);
-            runner(20, 60, metric);
-            runner(20, 60, metric);
+            //different percentages
+            runner(5,10,metric);
+            runner(5,30,metric);
+            runner(5,50,metric);
+            runner(5,70,metric);
+            runner(5,90,metric);
         }
-
 
     }
 
